@@ -2,18 +2,21 @@
 
 # Introduction
 
+This is Data Analysis project merely based on SQL queries and Tableau Visualization. The project explres the Covid data over the last years in term of cases, deaths, vaccinations and other factors.
+
+# Tasks
+* Data Source and Importing
+* Data Preprocessing
+* Exploratory Data Analysis - EDA
 
 
-# Task
-* Fixing Data Column e.g., Date Format
-* Importing
-* EDA
+
+# Data Source and Importing
 
 ## Data Source
 
 [Our World in Data](https://ourworldindata.org/covid-deaths)
 
-# Data Preprocessing
 
 ## Importing
 
@@ -27,7 +30,7 @@
 mysql -u database_user -p database_password database_name < data.sql
 ```
 
-
+# Data Preprocessing
 
 ## Fix Date Format
 
@@ -42,7 +45,7 @@ mysql -u database_user -p database_password database_name < data.sql
 update covid_deaths set valid_date = concat(substring(date,7,4),'-',substring(date,4,2),'-',substring(date,1,2));
 ```
 
-## Exploratory Data Analysis (EDA) - Queries
+# Exploratory Data Analysis (EDA) - Queries
 
 ### Covid Death/Covid Cases
 ```
@@ -175,6 +178,16 @@ Group by location, population, date
 order by percent_population_infected desc
 ```
 
+```
+-- 5 
+Select cas.location, cas.date, cas.population, cas.total_cases, cas.new_cases, 
+cas.total_deaths, cas.new_deaths, vac.total_tests, vac.new_tests, vac.new_vaccinations, vac.total_vaccinations
+from covid_data_analysis.covid_deaths cas
+join covid_data_analysis.covid_vaccinations vac
+on cas.location=vac.location and cas.date=vac.date
+where cas.location regexp 'Canada|United States|Germany|France|England|Poland' -- had to merge United States again later
+group by cas.location, cas.date
+```
 
 
 ## Credits
